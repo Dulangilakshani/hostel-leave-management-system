@@ -196,6 +196,79 @@ const getReport = async (req, res) => {
   }
 };
 
+// Monthly report data
+const getMonthlyReport = async (req, res) => {
+  try {
+    const monthlyData = await Leave.aggregate([
+      {
+        $group: {
+          _id: {
+            year: { $year: "$leaveDateTime" },
+            month: { $month: "$leaveDateTime" },
+          },
+          totalLeaves: { $sum: 1 },
+          lateReturns: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "late"] }, 1, 0],
+            },
+          },
+          onTimeReturns: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "on_time"] }, 1, 0],
+            },
+          },
+          pendingLeaves: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "pending"] }, 1, 0],
+            },
+          },
+        },
+      },
+      {
+        $sort: {
+          "_id.year": 1,
+          "_id.month": 1,
+        },
+      },
+    ]);
+
+    const formattedData = monthlyData.map((item) => ({
+      month: `${item._id.year}-${String(item._id.month).padStart(2, "0")}`,
+      totalLeaves: item.totalLeaves,
+      lateReturns: item.lateReturns,
+      onTimeReturns: item.onTimeReturns,
+      pendingLeaves: item.pendingLeaves,
+    }));
+
+    res.status(200).json(formattedData);
+  } catch (error) {
+    console.log("MONTHLY REPORT ERROR:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Status chart data
+const getStatusChartData = async (req, res) => {
+  try {
+    const total = await Leave.countDocuments();
+    const late = await Leave.countDocuments({ status: "late" });
+    const onTime = await Leave.countDocuments({ status: "on_time" });
+    const pending = await Leave.countDocuments({ status: "pending" });
+
+    const chartData = [
+      { name: "Late", value: late },
+      { name: "On Time", value: onTime },
+      { name: "Pending", value: pending },
+      { name: "Total", value: total },
+    ];
+
+    res.status(200).json(chartData);
+  } catch (error) {
+    console.log("STATUS CHART ERROR:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 // 🔚 EXPORT ALL
 module.exports = {
@@ -207,4 +280,6 @@ module.exports = {
   getAllLeaves,
   filterLeaves,
   getReport,
+  getMonthlyReport,
+  getStatusChartData,
 };
