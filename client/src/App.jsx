@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
 import WardenDashboard from "./pages/WardenDashboard";
+import Reports from "./pages/Reports";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WardenRoute from "./components/WardenRoute";
 
@@ -36,6 +37,17 @@ function App() {
             <ProtectedRoute>
               <WardenRoute>
                 <WardenDashboard />
+              </WardenRoute>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute>
+              <WardenRoute>
+                <Reports />
               </WardenRoute>
             </ProtectedRoute>
           }
