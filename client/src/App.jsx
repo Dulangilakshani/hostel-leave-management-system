@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
 import WardenDashboard from "./pages/WardenDashboard";
-
 import ProtectedRoute from "./components/ProtectedRoute";
 import WardenRoute from "./components/WardenRoute";
 
@@ -12,11 +10,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* Public */}
         <Route path="/" element={<Login />} />
 
-        {/* Student Protected */}
         <Route
           path="/dashboard"
           element={
@@ -35,7 +30,6 @@ function App() {
           }
         />
 
-        {/* Warden Protected */}
         <Route
           path="/warden"
           element={
@@ -46,11 +40,9 @@ function App() {
             </ProtectedRoute>
           }
         />
-
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
