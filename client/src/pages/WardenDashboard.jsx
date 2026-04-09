@@ -39,7 +39,10 @@ function WardenDashboard() {
       setLate(lateRes.data);
       setReport(reportRes.data);
     } catch (error) {
-      console.log("WARDEN DASHBOARD ERROR:", error.response?.data || error.message);
+      console.log(
+        "WARDEN DASHBOARD ERROR:",
+        error.response?.data || error.message
+      );
       alert(error.response?.data?.message || "Error loading data");
     } finally {
       setLoading(false);
@@ -68,10 +71,21 @@ function WardenDashboard() {
     navigate("/");
   };
 
+  const handleReports = () => {
+    navigate("/reports");
+  };
+
   const formatLeaveType = (leaveType) => {
     if (leaveType === "day_out") return "Day Out";
     if (leaveType === "out_going") return "Out Going";
     return leaveType;
+  };
+
+  const formatStatus = (status) => {
+    if (status === "on_time") return "On Time";
+    if (status === "late") return "Late";
+    if (status === "pending") return "Pending";
+    return status;
   };
 
   return (
@@ -87,12 +101,21 @@ function WardenDashboard() {
             </p>
           </div>
 
-          <button
-            onClick={handleLogout}
-            className="rounded-xl bg-red-500 px-5 py-3 font-medium text-white transition hover:bg-red-600"
-          >
-            Logout
-          </button>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <button
+              onClick={handleReports}
+              className="rounded-xl bg-purple-600 px-5 py-3 font-medium text-white transition hover:bg-purple-700"
+            >
+              View Reports
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="rounded-xl bg-red-500 px-5 py-3 font-medium text-white transition hover:bg-red-600"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         <div className="mb-6 grid gap-6 md:grid-cols-4">
@@ -192,8 +215,12 @@ function WardenDashboard() {
                     >
                       <td className="px-4 py-3">{item.name}</td>
                       <td className="px-4 py-3">{item.roomNumber}</td>
-                      <td className="px-4 py-3">{formatLeaveType(item.leaveType)}</td>
-                      <td className="px-4 py-3">{item.status}</td>
+                      <td className="px-4 py-3">
+                        {formatLeaveType(item.leaveType)}
+                      </td>
+                      <td className="px-4 py-3">
+                        {formatStatus(item.status)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -213,7 +240,9 @@ function WardenDashboard() {
             {loading ? (
               <div className="p-5 text-slate-600">Loading...</div>
             ) : currentOut.length === 0 ? (
-              <div className="p-5 text-slate-600">No students currently out.</div>
+              <div className="p-5 text-slate-600">
+                No students currently out.
+              </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="min-w-full text-sm">
@@ -233,7 +262,9 @@ function WardenDashboard() {
                       >
                         <td className="px-4 py-3">{item.name}</td>
                         <td className="px-4 py-3">{item.roomNumber}</td>
-                        <td className="px-4 py-3">{formatLeaveType(item.leaveType)}</td>
+                        <td className="px-4 py-3">
+                          {formatLeaveType(item.leaveType)}
+                        </td>
                         <td className="px-4 py-3">
                           {new Date(item.leaveDateTime).toLocaleString()}
                         </td>
