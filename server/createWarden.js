@@ -14,21 +14,14 @@ const createWarden = async () => {
     const email = "warden@gmail.com";
     const plainPassword = "123456";
 
-    const existingUser = await User.findOne({
-      $or: [{ regNo }, { email }],
-    });
-
-    if (existingUser) {
-      console.log("Warden already exists");
-      process.exit();
-    }
+    await User.deleteOne({ regNo });
 
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     const warden = await User.create({
       name: "Main Warden",
-      regNo: regNo,
-      email: email,
+      regNo,
+      email,
       password: hashedPassword,
       role: "warden",
       roomNumber: "Office",
@@ -37,11 +30,9 @@ const createWarden = async () => {
 
     console.log("Warden account created successfully");
     console.log({
-      name: warden.name,
       regNo: warden.regNo,
-      email: warden.email,
-      role: warden.role,
       password: plainPassword,
+      role: warden.role,
     });
 
     process.exit();
