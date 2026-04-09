@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
   "start": "node server.js",
-  "dev": "nodemon server.js"
+  "dev": "nodemon server.js",
+  "create-warden": "node createWarden.js"
+  
 },
   "keywords": [],
   "author": "",
