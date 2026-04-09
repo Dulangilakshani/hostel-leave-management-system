@@ -10,14 +10,20 @@ const {
   getAllLeaves,
   filterLeaves,
   getReport,
-} = require("../controllers/LeaveController"); // ✅ FIXED (small l)
+  getMonthlyReport,
+  getStatusChartData,
+} = require("../controllers/LeaveController");
 
-const { protect, isWarden } = require("../middleware/AuthMiddleware"); // ✅ FIXED
+const { protect, isWarden } = require("../middleware/AuthMiddleware");
 
 // student routes
 router.post("/create", protect, createLeave);
 router.put("/return", protect, returnLeave);
 router.get("/my-history", protect, getMyLeaves);
+
+//new chart/report routes
+router.get("/monthly-report", protect, isWarden, getMonthlyReport);
+router.get("/status-chart", protect, isWarden, getStatusChartData);
 
 // warden routes
 router.get("/current-out", protect, isWarden, getCurrentOut);
