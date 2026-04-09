@@ -14,6 +14,10 @@ import {
   FaSignInAlt,
   FaUserPlus,
   FaKey,
+  FaUniversity,
+  FaShieldAlt,
+  FaClock,
+  FaChartLine,
 } from "react-icons/fa";
 
 function Login() {
@@ -183,28 +187,93 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 flex items-center justify-center px-4 py-6">
-      <div className="w-full max-w-6xl overflow-hidden rounded-3xl bg-white/10 backdrop-blur-xl shadow-2xl ring-1 ring-white/20 grid grid-cols-1 lg:grid-cols-2">
-        {/* LEFT IMAGE PANEL */}
-        <div className="relative hidden lg:block min-h-[760px]">
+      <div className="w-full max-w-7xl overflow-hidden rounded-3xl bg-white/10 backdrop-blur-xl shadow-2xl ring-1 ring-white/20 grid grid-cols-1 lg:grid-cols-2">
+        {/* LEFT BRANDING PANEL */}
+        <div className="relative hidden lg:block min-h-[820px]">
           <img
             src={facultyImg}
             alt="Faculty"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/45 to-indigo-900/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/55 to-indigo-900/25" />
 
-          <div className="relative z-10 flex h-full flex-col justify-end p-10 text-white">
-            <div className="max-w-md">
+          <div className="relative z-10 flex h-full flex-col justify-between p-10 text-white">
+            <div>
+              <div className="mb-6 flex items-center gap-4">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 backdrop-blur ring-1 ring-white/20">
+                  <FaUniversity className="text-3xl" />
+                </div>
+
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-slate-200">
+                    University of Ruhuna - Technology Faculty
+                  </p>
+                  <h2 className="text-2xl font-bold">
+                    Hostel Leave Management
+                  </h2>
+                </div>
+              </div>
+
               <p className="mb-3 inline-block rounded-full bg-white/15 px-4 py-1 text-xs font-semibold tracking-wide backdrop-blur">
-                Hostel Leave Management
+                Digital Student Movement Tracking
               </p>
-              <h2 className="text-4xl font-bold leading-tight">
-                Smarter hostel movement tracking for students and wardens.
-              </h2>
-              <p className="mt-4 text-sm text-slate-200">
-                Record leave, returns, monitor late arrivals, and manage hostel
-                activity through one secure digital platform.
+
+              <h3 className="max-w-lg text-4xl font-bold leading-tight">
+                Manage hostel leave requests, returns, and warden monitoring in one smart system.
+              </h3>
+
+              <p className="mt-4 max-w-xl text-sm leading-6 text-slate-200">
+                Built for modern campus administration with real-time leave records,
+                faster student access, secure authentication, and cleaner reporting.
               </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="rounded-2xl bg-white/10 backdrop-blur p-4 ring-1 ring-white/15">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/30">
+                    <FaShieldAlt />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Secure Access</h4>
+                    <p className="text-sm text-slate-200">
+                      Registration-number based login with protected student and warden dashboards.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-white/10 backdrop-blur p-4 ring-1 ring-white/15">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/30">
+                    <FaClock />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Real-Time Leave Tracking</h4>
+                    <p className="text-sm text-slate-200">
+                      Record leave and return times instantly with late return detection.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-white/10 backdrop-blur p-4 ring-1 ring-white/15">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/30">
+                    <FaChartLine />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Reports & Analytics</h4>
+                    <p className="text-sm text-slate-200">
+                      View reports, charts, and downloadable summaries for hostel management.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 text-xs text-slate-300">
+                Faculty of Computing • Student Services • Secure Access Portal
+              </div>
             </div>
           </div>
         </div>
@@ -521,6 +590,10 @@ function Login() {
                 </button>
               </form>
             )}
+
+            <div className="mt-6 text-center text-xs text-slate-400">
+              Secure campus access portal • Hostel administration system
+            </div>
           </div>
         </div>
       </div>
