@@ -27,9 +27,11 @@ const userSchema = new mongoose.Schema(
     },
     roomNumber: {
       type: String,
+      default: "",
     },
     year: {
       type: Number,
+      default: 2025,
     },
   },
   { timestamps: true }
