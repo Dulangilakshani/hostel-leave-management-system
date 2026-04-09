@@ -1,13 +1,13 @@
-const User = require("../models/user");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Register
+// Register - student only from public page
 const registerUser = async (req, res) => {
   try {
-    const { name, regNo, email, password, role, roomNumber, year } = req.body;
+    const { name, regNo, email, password, roomNumber, year } = req.body;
 
-    if (!name || !regNo || !email || !password) {
+    if (!name || !regNo || !email || !password || !roomNumber || !year) {
       return res.status(400).json({ message: "Please fill all required fields" });
     }
 
@@ -26,13 +26,13 @@ const registerUser = async (req, res) => {
       regNo,
       email,
       password: hashedPassword,
-      role: role || "student",
+      role: "student",
       roomNumber,
       year,
     });
 
     res.status(201).json({
-      message: "User registered successfully",
+      message: "Student registered successfully",
       user: {
         id: user._id,
         name: user.name,
@@ -49,18 +49,18 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Login
+// Login with Registration Number + Password
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { regNo, password } = req.body;
 
-    console.log("LOGIN REQUEST:", req.body);
-
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+    if (!regNo || !password) {
+      return res.status(400).json({
+        message: "Registration number and password are required",
+      });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ regNo });
 
     if (!user) {
       return res.status(400).json({ message: "User not found" });
