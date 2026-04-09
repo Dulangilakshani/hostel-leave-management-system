@@ -81,8 +81,41 @@ const getMyLeaves = async (req, res) => {
   }
 };
 
+// Get students currently out
+const getCurrentOut = async (req, res) => {
+  try {
+    const records = await Leave.find({ status: "pending" }).sort({ createdAt: -1 });
+    res.status(200).json(records);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get late students
+const getLateReturns = async (req, res) => {
+  try {
+    const records = await Leave.find({ status: "late" }).sort({ createdAt: -1 });
+    res.status(200).json(records);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get all records
+const getAllLeaves = async (req, res) => {
+  try {
+    const records = await Leave.find().sort({ createdAt: -1 });
+    res.status(200).json(records);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createLeave,
   returnLeave,
   getMyLeaves,
+  getCurrentOut,
+  getLateReturns,
+  getAllLeaves,
 };
