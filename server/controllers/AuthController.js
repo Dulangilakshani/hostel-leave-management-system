@@ -44,6 +44,7 @@ const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
+    console.log("REGISTER ERROR:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -53,6 +54,8 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log("LOGIN REQUEST:", req.body);
+
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
     }
@@ -60,13 +63,13 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
     const token = jwt.sign(
@@ -92,6 +95,7 @@ const loginUser = async (req, res) => {
       },
     });
   } catch (error) {
+    console.log("LOGIN ERROR:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
