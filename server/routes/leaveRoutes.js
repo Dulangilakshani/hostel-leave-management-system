@@ -8,22 +8,22 @@ const {
   getCurrentOut,
   getLateReturns,
   getAllLeaves,
-} = require("../controllers/LeaveController");
+  filterLeaves,
+  getReport,
+} = require("../controllers/LeaveController"); // ✅ FIXED (small l)
 
-const {
-  protect,
-  isWarden,
-  isStudent,
-} = require("../middleware/AuthMiddleware");
+const { protect, isWarden } = require("../middleware/AuthMiddleware"); // ✅ FIXED
 
-// Student routes
-router.post("/create", protect, isStudent, createLeave);
-router.put("/return", protect, isStudent, returnLeave);
-router.get("/my-history", protect, isStudent, getMyLeaves);
+// student routes
+router.post("/create", protect, createLeave);
+router.put("/return", protect, returnLeave);
+router.get("/my-history", protect, getMyLeaves);
 
-// Warden routes
+// warden routes
 router.get("/current-out", protect, isWarden, getCurrentOut);
 router.get("/late", protect, isWarden, getLateReturns);
 router.get("/all", protect, isWarden, getAllLeaves);
+router.get("/filter", protect, isWarden, filterLeaves);
+router.get("/report", protect, isWarden, getReport);
 
 module.exports = router;
