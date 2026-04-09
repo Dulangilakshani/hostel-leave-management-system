@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -100,4 +100,34 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+// Forgot Password / Reset Password using Registration Number
+const resetPassword = async (req, res) => {
+  try {
+    const { regNo, newPassword } = req.body;
+
+    if (!regNo || !newPassword) {
+      return res.status(400).json({
+        message: "Registration number and new password are required",
+      });
+    }
+
+    const user = await User.findOne({ regNo });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({
+      message: "Password reset successful",
+    });
+  } catch (error) {
+    console.log("RESET PASSWORD ERROR:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { registerUser, loginUser, resetPassword };
