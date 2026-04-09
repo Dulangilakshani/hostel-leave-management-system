@@ -182,4 +182,10 @@ button:hover {
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+html, body, #root {
+  min-height: 100%;
+}
+
 
