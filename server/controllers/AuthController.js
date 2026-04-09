@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
       role: "student",
       roomNumber,
-      year,
+      year: Number(year),
     });
 
     res.status(201).json({
@@ -49,10 +49,12 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Login with Registration Number + Password
+// Login with regNo + password
 const loginUser = async (req, res) => {
   try {
     const { regNo, password } = req.body;
+
+    console.log("LOGIN BODY:", req.body);
 
     if (!regNo || !password) {
       return res.status(400).json({
@@ -60,7 +62,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ regNo });
+    const user = await User.findOne({ regNo: regNo.trim() });
 
     if (!user) {
       return res.status(400).json({ message: "User not found" });
@@ -100,7 +102,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Forgot Password / Reset Password using Registration Number
+// Reset password
 const resetPassword = async (req, res) => {
   try {
     const { regNo, newPassword } = req.body;
@@ -111,7 +113,7 @@ const resetPassword = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ regNo });
+    const user = await User.findOne({ regNo: regNo.trim() });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
