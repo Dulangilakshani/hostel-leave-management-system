@@ -2,6 +2,19 @@ import React, { useState } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
 import facultyImg from "../assets/faculty.jpg";
+import {
+  FaUserGraduate,
+  FaIdCard,
+  FaEnvelope,
+  FaLock,
+  FaDoorOpen,
+  FaCalendarAlt,
+  FaEye,
+  FaEyeSlash,
+  FaSignInAlt,
+  FaUserPlus,
+  FaKey,
+} from "react-icons/fa";
 
 function Login() {
   const [isSignup, setIsSignup] = useState(false);
@@ -169,274 +182,346 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center px-4 py-6">
-      <div className="w-full max-w-6xl overflow-hidden rounded-2xl bg-white shadow-2xl grid grid-cols-1 md:grid-cols-2">
-        <div className="hidden md:block h-full">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 flex items-center justify-center px-4 py-6">
+      <div className="w-full max-w-6xl overflow-hidden rounded-3xl bg-white/10 backdrop-blur-xl shadow-2xl ring-1 ring-white/20 grid grid-cols-1 lg:grid-cols-2">
+        {/* LEFT IMAGE PANEL */}
+        <div className="relative hidden lg:block min-h-[760px]">
           <img
             src={facultyImg}
             alt="Faculty"
-            className="h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/45 to-indigo-900/25" />
+
+          <div className="relative z-10 flex h-full flex-col justify-end p-10 text-white">
+            <div className="max-w-md">
+              <p className="mb-3 inline-block rounded-full bg-white/15 px-4 py-1 text-xs font-semibold tracking-wide backdrop-blur">
+                Hostel Leave Management
+              </p>
+              <h2 className="text-4xl font-bold leading-tight">
+                Smarter hostel movement tracking for students and wardens.
+              </h2>
+              <p className="mt-4 text-sm text-slate-200">
+                Record leave, returns, monitor late arrivals, and manage hostel
+                activity through one secure digital platform.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="p-8 md:p-10">
-          <div className="mb-6 text-center">
-            <h1 className="text-3xl font-bold text-gray-800">
-              Hostel Leave System
-            </h1>
-            <p className="mt-2 text-sm text-gray-500">
-              {showForgot
-                ? "Reset your password"
-                : isSignup
-                ? "Create a new student account"
-                : "Sign in to continue"}
-            </p>
-          </div>
+        {/* RIGHT FORM PANEL */}
+        <div className="flex items-center justify-center p-6 sm:p-8 lg:p-10">
+          <div className="w-full max-w-md">
+            <div className="mb-8 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg">
+                {showForgot ? (
+                  <FaKey className="text-2xl" />
+                ) : isSignup ? (
+                  <FaUserPlus className="text-2xl" />
+                ) : (
+                  <FaSignInAlt className="text-2xl" />
+                )}
+              </div>
 
-          {!showForgot && (
-            <div className="mb-6 flex rounded-xl bg-slate-100 p-1">
-              <button
-                type="button"
-                onClick={() => setIsSignup(false)}
-                className={`w-1/2 rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                  !isSignup
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-600 hover:bg-slate-200"
-                }`}
-              >
-                Login
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsSignup(true)}
-                className={`w-1/2 rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                  isSignup
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-600 hover:bg-slate-200"
-                }`}
-              >
-                Sign Up
-              </button>
+              <h1 className="text-3xl font-bold text-white">
+                Hostel Leave System
+              </h1>
+              <p className="mt-2 text-sm text-slate-300">
+                {showForgot
+                  ? "Reset your password securely"
+                  : isSignup
+                  ? "Create a new student account"
+                  : "Sign in to continue"}
+              </p>
             </div>
-          )}
 
-          {showForgot ? (
-            <form onSubmit={handleResetSubmit} className="space-y-5">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Registration Number
-                </label>
-                <input
-                  type="text"
-                  name="regNo"
-                  placeholder="Enter your registration number"
-                  value={resetData.regNo}
-                  onChange={handleResetChange}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  New Password
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type={showResetPassword ? "text" : "password"}
-                    name="newPassword"
-                    placeholder="Enter new password"
-                    value={resetData.newPassword}
-                    onChange={handleResetChange}
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowResetPassword(!showResetPassword)}
-                    className="rounded-xl bg-slate-200 px-4 py-3 text-sm font-medium text-slate-700"
-                  >
-                    {showResetPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-xl bg-orange-600 py-3 font-semibold text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:bg-orange-400"
-              >
-                {loading ? "Resetting..." : "Reset Password"}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setShowForgot(false)}
-                className="w-full rounded-xl bg-slate-200 py-3 font-semibold text-slate-700 transition hover:bg-slate-300"
-              >
-                Back to Login
-              </button>
-            </form>
-          ) : !isSignup ? (
-            <form onSubmit={handleLoginSubmit} className="space-y-5">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Registration Number
-                </label>
-                <input
-                  type="text"
-                  name="regNo"
-                  placeholder="Enter your registration number"
-                  value={loginData.regNo}
-                  onChange={handleLoginChange}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type={showLoginPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Enter your password"
-                    value={loginData.password}
-                    onChange={handleLoginChange}
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowLoginPassword(!showLoginPassword)}
-                    className="rounded-xl bg-slate-200 px-4 py-3 text-sm font-medium text-slate-700"
-                  >
-                    {showLoginPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-              </div>
-
-              <div className="text-right">
+            {!showForgot && (
+              <div className="mb-6 flex rounded-2xl bg-white/10 p-1 backdrop-blur">
                 <button
                   type="button"
-                  onClick={() => setShowForgot(true)}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-800"
+                  onClick={() => setIsSignup(false)}
+                  className={`w-1/2 rounded-xl px-4 py-3 text-sm font-semibold transition ${
+                    !isSignup
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
+                      : "text-slate-300 hover:bg-white/10"
+                  }`}
                 >
-                  Forgot Password?
+                  Login
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsSignup(true)}
+                  className={`w-1/2 rounded-xl px-4 py-3 text-sm font-semibold transition ${
+                    isSignup
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
+                      : "text-slate-300 hover:bg-white/10"
+                  }`}
+                >
+                  Sign Up
                 </button>
               </div>
+            )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
+            {showForgot ? (
+              <form
+                onSubmit={handleResetSubmit}
+                className="space-y-5 rounded-3xl bg-white/10 p-6 backdrop-blur-xl ring-1 ring-white/20"
               >
-                {loading ? "Logging in..." : "Login"}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleSignupSubmit} className="space-y-4">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Enter full name"
-                  value={signupData.name}
-                  onChange={handleSignupChange}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                />
-              </div>
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Registration Number
+                  </label>
+                  <div className="relative">
+                    <FaIdCard className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      name="regNo"
+                      placeholder="Enter your registration number"
+                      value={resetData.regNo}
+                      onChange={handleResetChange}
+                      className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                    />
+                  </div>
+                </div>
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Registration Number
-                </label>
-                <input
-                  type="text"
-                  name="regNo"
-                  placeholder="Enter registration number"
-                  value={signupData.regNo}
-                  onChange={handleSignupChange}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                />
-              </div>
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    New Password
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type={showResetPassword ? "text" : "password"}
+                        name="newPassword"
+                        placeholder="Enter new password"
+                        value={resetData.newPassword}
+                        onChange={handleResetChange}
+                        className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                      />
+                    </div>
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter email"
-                  value={signupData.email}
-                  onChange={handleSignupChange}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                />
-              </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowResetPassword(!showResetPassword)}
+                      className="rounded-2xl bg-white/10 px-4 py-3 text-slate-200 transition hover:bg-white/20"
+                    >
+                      {showResetPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                </div>
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type={showSignupPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Enter password"
-                    value={signupData.password}
-                    onChange={handleSignupChange}
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                  />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 py-3 font-semibold text-white shadow-lg transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {loading ? "Resetting..." : "Reset Password"}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowForgot(false)}
+                  className="w-full rounded-2xl bg-white/10 py-3 font-semibold text-slate-200 transition hover:bg-white/20"
+                >
+                  Back to Login
+                </button>
+              </form>
+            ) : !isSignup ? (
+              <form
+                onSubmit={handleLoginSubmit}
+                className="space-y-5 rounded-3xl bg-white/10 p-6 backdrop-blur-xl ring-1 ring-white/20"
+              >
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Registration Number
+                  </label>
+                  <div className="relative">
+                    <FaIdCard className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      name="regNo"
+                      placeholder="Enter your registration number"
+                      value={loginData.regNo}
+                      onChange={handleLoginChange}
+                      className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Password
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type={showLoginPassword ? "text" : "password"}
+                        name="password"
+                        placeholder="Enter your password"
+                        value={loginData.password}
+                        onChange={handleLoginChange}
+                        className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowLoginPassword(!showLoginPassword)}
+                      className="rounded-2xl bg-white/10 px-4 py-3 text-slate-200 transition hover:bg-white/20"
+                    >
+                      {showLoginPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="text-right">
                   <button
                     type="button"
-                    onClick={() => setShowSignupPassword(!showSignupPassword)}
-                    className="rounded-xl bg-slate-200 px-4 py-3 text-sm font-medium text-slate-700"
+                    onClick={() => setShowForgot(true)}
+                    className="text-sm font-medium text-blue-300 hover:text-blue-200"
                   >
-                    {showSignupPassword ? "Hide" : "Show"}
+                    Forgot Password?
                   </button>
                 </div>
-              </div>
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Room Number
-                </label>
-                <input
-                  type="text"
-                  name="roomNumber"
-                  placeholder="Enter room number"
-                  value={signupData.roomNumber}
-                  onChange={handleSignupChange}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Year
-                </label>
-                <input
-                  type="number"
-                  name="year"
-                  placeholder="Enter year"
-                  value={signupData.year}
-                  onChange={handleSignupChange}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-xl bg-green-600 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-green-400"
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 py-3 font-semibold text-white shadow-lg transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </button>
+              </form>
+            ) : (
+              <form
+                onSubmit={handleSignupSubmit}
+                className="space-y-4 rounded-3xl bg-white/10 p-6 backdrop-blur-xl ring-1 ring-white/20"
               >
-                {loading ? "Creating account..." : "Sign Up as Student"}
-              </button>
-            </form>
-          )}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <FaUserGraduate className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Enter full name"
+                      value={signupData.name}
+                      onChange={handleSignupChange}
+                      className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Registration Number
+                  </label>
+                  <div className="relative">
+                    <FaIdCard className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      name="regNo"
+                      placeholder="Enter registration number"
+                      value={signupData.regNo}
+                      onChange={handleSignupChange}
+                      className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter email"
+                      value={signupData.email}
+                      onChange={handleSignupChange}
+                      className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Password
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type={showSignupPassword ? "text" : "password"}
+                        name="password"
+                        placeholder="Enter password"
+                        value={signupData.password}
+                        onChange={handleSignupChange}
+                        className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowSignupPassword(!showSignupPassword)}
+                      className="rounded-2xl bg-white/10 px-4 py-3 text-slate-200 transition hover:bg-white/20"
+                    >
+                      {showSignupPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Room Number
+                  </label>
+                  <div className="relative">
+                    <FaDoorOpen className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      name="roomNumber"
+                      placeholder="Enter room number"
+                      value={signupData.roomNumber}
+                      onChange={handleSignupChange}
+                      className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
+                    Year
+                  </label>
+                  <div className="relative">
+                    <FaCalendarAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="number"
+                      name="year"
+                      placeholder="Enter year"
+                      value={signupData.year}
+                      onChange={handleSignupChange}
+                      className="w-full rounded-2xl border border-white/15 bg-white/10 pl-11 pr-4 py-3 text-white placeholder:text-slate-400 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 py-3 font-semibold text-white shadow-lg transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {loading ? "Creating account..." : "Sign Up as Student"}
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </div>
