@@ -30,7 +30,6 @@ const leaveSchema = new mongoose.Schema(
     },
     leaveDateTime: {
       type: Date,
-      required: true,
       default: Date.now,
     },
     expectedReturnDateTime: {
