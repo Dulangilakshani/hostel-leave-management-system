@@ -272,7 +272,7 @@ function Login() {
               </div>
 
               <div className="pt-4 text-xs text-slate-300">
-                Faculty of Computing • Student Services • Secure Access Portal
+                Faculty of Technology • Student Services • Secure Access Portal
               </div>
             </div>
           </div>
