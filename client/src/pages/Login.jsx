@@ -7,7 +7,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const [loginData, setLoginData] = useState({
-    email: "",
+    regNo: "",
     password: "",
   });
 
@@ -18,7 +18,6 @@ function Login() {
     password: "",
     roomNumber: "",
     year: "",
-    role: "student",
   });
 
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    if (!loginData.email || !loginData.password) {
+    if (!loginData.regNo || !loginData.password) {
       alert("Please fill all login fields");
       return;
     }
@@ -69,7 +68,7 @@ function Login() {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, regNo, email, password, roomNumber, year, role } = signupData;
+    const { name, regNo, email, password, roomNumber, year } = signupData;
 
     if (!name || !regNo || !email || !password || !roomNumber || !year) {
       alert("Please fill all signup fields");
@@ -86,7 +85,7 @@ function Login() {
 
       const res = await API.post("/auth/register", payload);
 
-      alert(res.data.message || "User registered successfully");
+      alert(res.data.message || "Student registered successfully");
 
       setSignupData({
         name: "",
@@ -95,10 +94,14 @@ function Login() {
         password: "",
         roomNumber: "",
         year: "",
-        role: "student",
       });
 
       setIsSignup(false);
+
+      setLoginData({
+        regNo: signupData.regNo,
+        password: "",
+      });
     } catch (error) {
       console.log("SIGNUP ERROR:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Signup failed");
@@ -115,7 +118,7 @@ function Login() {
             Hostel Leave System
           </h1>
           <p className="mt-2 text-sm text-gray-500">
-            {isSignup ? "Create a new account" : "Sign in to continue"}
+            {isSignup ? "Create a new student account" : "Sign in to continue"}
           </p>
         </div>
 
@@ -149,13 +152,13 @@ function Login() {
           <form onSubmit={handleLoginSubmit} className="space-y-5">
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                Email
+                Registration Number
               </label>
               <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                value={loginData.email}
+                type="text"
+                name="regNo"
+                placeholder="Enter your registration number"
+                value={loginData.regNo}
                 onChange={handleLoginChange}
                 className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               />
@@ -269,27 +272,12 @@ function Login() {
               />
             </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                Role
-              </label>
-              <select
-                name="role"
-                value={signupData.role}
-                onChange={handleSignupChange}
-                className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-              >
-                <option value="student">Student</option>
-                <option value="warden">Warden</option>
-              </select>
-            </div>
-
             <button
               type="submit"
               disabled={loading}
               className="w-full rounded-xl bg-green-600 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-green-400"
             >
-              {loading ? "Creating account..." : "Sign Up"}
+              {loading ? "Creating account..." : "Sign Up as Student"}
             </button>
           </form>
         )}
