@@ -14,8 +14,10 @@ function History() {
   const fetchHistory = async () => {
     try {
       const res = await API.get("/leave/my-history");
-      setLeaves(res.data);
+      console.log("HISTORY DATA:", res.data);
+      setLeaves(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
+      console.log("HISTORY ERROR:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Failed to load history");
     } finally {
       setLoading(false);
@@ -31,6 +33,13 @@ function History() {
     if (type === "day_out") return "Day Out";
     if (type === "out_going") return "Out Going";
     return type;
+  };
+
+  const formatStatus = (status) => {
+    if (status === "on_time") return "On Time";
+    if (status === "late") return "Late";
+    if (status === "pending") return "Pending";
+    return status;
   };
 
   const handleLogout = () => {
@@ -69,7 +78,7 @@ function History() {
         <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
           {loading ? (
             <div className="p-6 text-slate-600">Loading history...</div>
-          ) : leaves.length === 0 ? (
+          ) : !leaves || leaves.length === 0 ? (
             <div className="p-6 text-slate-600">No leave records found.</div>
           ) : (
             <div className="overflow-x-auto">
@@ -111,7 +120,7 @@ function History() {
                               : "bg-yellow-100 text-yellow-700"
                           }`}
                         >
-                          {leave.status}
+                          {formatStatus(leave.status)}
                         </span>
                       </td>
                     </tr>
