@@ -65,7 +65,12 @@ function Login() {
     try {
       setLoading(true);
 
-      const res = await API.post("/auth/login", loginData);
+      const payload = {
+        regNo: loginData.regNo.trim(),
+        password: loginData.password,
+      };
+
+      const res = await API.post("/auth/login", payload);
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -98,6 +103,7 @@ function Login() {
 
       const payload = {
         ...signupData,
+        regNo: signupData.regNo.trim(),
         year: Number(year),
       };
 
@@ -117,7 +123,7 @@ function Login() {
       setIsSignup(false);
 
       setLoginData({
-        regNo: signupData.regNo,
+        regNo: payload.regNo,
         password: "",
       });
     } catch (error) {
@@ -139,7 +145,12 @@ function Login() {
     try {
       setLoading(true);
 
-      const res = await API.put("/auth/reset-password", resetData);
+      const payload = {
+        regNo: resetData.regNo.trim(),
+        newPassword: resetData.newPassword,
+      };
+
+      const res = await API.put("/auth/reset-password", payload);
 
       alert(res.data.message || "Password reset successful");
 
