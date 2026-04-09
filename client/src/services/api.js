@@ -6,19 +6,18 @@ const API = axios.create({
 
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
+
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
+
   return req;
 });
 
 API.interceptors.response.use(
-  (res) => res,
+  (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.clear();
-      window.location.href = "/";
-    }
+    console.log("API ERROR:", error.response?.data || error.message);
     return Promise.reject(error);
   }
 );
